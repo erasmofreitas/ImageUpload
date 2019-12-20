@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Upload de Imagem</h1>
+    <p class="lead">Página de testes para upload de imagem.</p>
+</div>
+<div>
+    <h4>
+        @ViewBag.Message
+    </h4>
+    <img src='data:image/png;base64, @ViewBag.Imagem' id="imgPreview" width="200" height="200" />
+</div>
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <h2>Selecione a Imagem</h2>
+            <p>
+                <input type="file" id="file" name="file" />
+            </p>
+            <button type="submit" class="btn btn-success">
+                <span>Upload</span>
+            </button>
+        }
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script>
+    var uploadImage = document.getElementById('file');
+    var preview = document.getElementById('impPreview');
+
+    uploadImage.addEventListener('change', function (e) {
+        showThumbnail(this.files);
+    });
+
+    function showThumbnail(files) {
+        if (files && files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+                $('#img').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(files[0]);
+        }
+    }
+</script>
